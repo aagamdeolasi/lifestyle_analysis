@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Header starts here -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lifestyle Snapshot Dashboard (Excel Project)</title>
+    <link href="./assets/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="icon" type="image/png" href="./assets/favicon.png">
+
+    <!-- Style starts here -->
+    <style>
+        /* body style */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #F8F9FA;
+        }
+
+        /* body style */
+
+        /* Color Grading used everywhere */
+        .color-1 {
+            color: #0D4A30;
+        }
+
+        .color-2 {
+            color: #AD6C11;
+        }
+
+        .color-3 {
+            color: #41BA88;
+        }
+
+        /* Color Grading used everywhere */
+
+        /* Card Styles */
+        .card {
+            margin-bottom: 20px;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .card.color-1 {
+            border-top: 3px solid #0D4A30;
+            border-bottom: 3px solid #0D4A30;
+        }
+
+        .card.color-2 {
+            border-top: 3px solid #AD6C11;
+            border-bottom: 3px solid #AD6C11;
+        }
+
+        .card.color-3#dataset-used {
+            border-top: 3px solid #41BA88;
+            border-bottom: 3px solid #41BA88;
+        }
+
+        /* Card Styles */
+
+        /* Card Highlight effect */
+        .highlight {
+            border: 4px inset #AD6C11;
+        }
+
+        /* Permenant Borders to Dashboard Card */
+        .fixhighlight {
+            border: 4px outset #41BA88;
+        }
+
+        /* Iframe Loader Style */
+        #loader {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        #loader img {
+            width: 70px;
+            height: 70px;
+        }
+
+        /* Iframe Loader Style */
+
+        /* Row cards equal heights style */
+        .equal-height-cards {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .equal-height-cards .col-md-6 {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .equal-height-cards .card {
+            flex: 1;
+        }
+
+        /* Row cards equal heights style */
+
+        /* Heart animation */
+        @keyframes heartbeat {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.4);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .heartbeat {
+            display: inline-block;
+            animation: heartbeat 1.2s infinite;
+        }
+
+        /* Heart animation */
+
+        /* Default icon styles */
+        .icon-link {
+            transition: transform 0.3s;
+            /* Add transition for smooth hover effect */
+            color: black;
+        }
+
+        /* Hover effect */
+        .icon-link:hover {
+            transform: scale(1.2);
+            /* Scale up the icon on hover */
+        }
+
+        .github:hover {
+            color: #AD6C11;
+        }
+
+        .portfolio:hover {
+            color: #41BA88;
+        }
+
+        /* Hover effect */
+
+        /* Define the gradient animation */
+        @keyframes gradient {
+            0% {
+                color: tomato;
+            }
+
+            50% {
+                color: purple;
+            }
+
+            100% {
+                color: royalblue;
+            }
+        }
+
+        /* Apply the gradient animation to the word "Excel" */
+        .excel-animation {
+            animation: gradient 4s infinite;
+            /* Duration of animation: 4 seconds, Loop infinitely */
+        }
+    </style>
+    <!-- Style Ends here -->
+</head>
+<!-- Header Ends Here -->
+
+<!-- Body Starts Here -->
+
+<body>
+    <!-- Navbar Starts Here -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+        <a class="navbar-brand" style="cursor: no-drop; vertical-align: middle;">
+            <img src="./assets/logo.png" alt="Project Logo" style="max-height: 35px; vertical-align: middle;">
+            <strong> LIFESTYLE SNAPSHOT DASHBOARD - 2024</strong>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link btn" href="#project-overview" onclick="highlightCard('project-overview')">
+                        <i class="fas fa-trophy color-1"> Project Overview</i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link btn" href="#challenge" onclick="highlightCard('challenge')">
+                        <i class="fas fa-puzzle-piece color-2"> Addressed Challenges</i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link btn" href="#dataset-used" onclick="highlightCard('dataset-used')">
+                        <i class="fas fa-database color-3"> Dataset</i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link btn" href="#utilized-skills" onclick="highlightCard('utilized-skills')">
+                        <i class="fas fa-toolbox color-1"> Skills</i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link btn" href="#key-insights" onclick="highlightCard('key-insights')">
+                        <i class="fas fa-lightbulb color-2"> Key Insights</i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link btn" href="#excel-dashboard-demo"
+                        onclick="highlightCard('excel-dashboard-demo')">
+                        <i class="fas fa-file-excel color-3"> Dashboard Demo</i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link btn" href="#professional-links" onclick="highlightCard('professional-links')">
+                        <i class="fas fa-user-tie color-1"> Connect with me</i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <!-- Navbar Ends Here -->
+
+    <!-- Particle JS Background -->
+    <div id="particles-js" style="position: fixed; width: 100%; height: 100%;"></div>
+    <!-- Particle JS Background -->
+
+    <!-- Web Content Starts -->
+    <div class="container mt-3">
+        <!-- Project Overview/Goal Section -->
+        <div class="row">
+            <div class="col-md-12 mb-0">
+                <div class="card text-center color-1" id="project-overview">
+                    <div class="card-body">
+                        <h5 class="card-title"><strong><i class="fas fa-trophy"></i> PROJECT OVERVIEW/GOAL <i
+                                    class="fas fa-trophy"></i></strong></h5>
+                        <p class="card-text">The <strong><em>Lifestyle Snapshot Dashboard</em></strong> project is a
+                            comprehensive analysis conducted entirely in <span class="excel-animation"><strong>Microsoft
+                                    Excel</strong></span>. It aims to illuminate the public
+                            interest landscape in 2024. By analyzing a comprehensive survey dataset, the project seeks
+                            to <strong>uncover the predominant preferences, hobbies, and emerging trends</strong>
+                            shaping societal dynamics.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Project Overview/Goal Section -->
+
+        <!-- Challenges and Dataset -->
+        <div class="row equal-height-cards">
+            <!-- Challenge -->
+            <div class="col-md-6 mb-0">
+                <div class="card text-left color-2" id="challenge">
+                    <div class="card-body">
+                        <h5 class="card-title text-center"><strong><i class="fas fa-puzzle-piece"></i> ADDRESSED
+                                CHALLENGES <i class="fas fa-puzzle-piece"></i></strong></h5>
+                        <ul>
+                            <li><strong>Data Complexity:</strong> Analyzing diverse demographic and preference data
+                                demanded advanced analytical techniques.</li>
+                            <li><strong>Demographic Segmentation:</strong> Segmenting the dataset by age, gender, and
+                                lifestyle preferences for meaningful insights.</li>
+                            <li><strong>Trend Identification:</strong> Identifying significant trends in leisure
+                                activities, travel preferences, and lifestyle choices within the extensive dataset.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- Dataset Used -->
+            <div class="col-md-6 mb-0">
+                <div class="card text-left color-3" id="dataset-used">
+                    <div class="card-body">
+                        <h5 class="card-title text-center"><strong><i class="fas fa-database"></i> DATASET SUMMARY <i
+                                    class="fas fa-database"></i></strong></h5>
+                        <!-- <p class="card-text">Dataset utilized for this project.</p> -->
+                        <p class="card-text">The <strong>Lifestyle Snapshot Dashboard</strong> project is based on a
+                            comprehensive survey
+                            dataset collected to explore the pulse of public interest in 2024. This dataset, hosted on
+                            <strong><a target="_blank" href="https://www.kaggle.com/">Kaggle</a></strong>, encompasses a
+                            diverse range
+                            of topics, shedding light on the preferences and trends that define the current cultural and
+                            social landscape. You can access the dataset <strong><a
+                                    href="https://www.kaggle.com/datasets/elanesankumaravel/most-interesting-things-to-people-in-2024"
+                                    target="_blank">here</a></strong>.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Challenges and Dataset -->
+
+        <!-- Skills and Key Insights Section -->
+        <div class="row equal-height-cards">
+            <!-- Utilized Skills -->
+            <div class="col-md-6 mb-0">
+                <div class="card text-left color-1" id="utilized-skills">
+                    <div class="card-body">
+                        <h5 class="card-title text-center"><strong><i class="fas fa-briefcase"></i> UTILIZED SKILLS <i
+                                    class="fas fa-briefcase"></i></strong></h5>
+                        <ul>
+                            <li><strong>Data Cleaning & Transformation:</strong> Leveraged <em>Power Query</em> in Excel
+                                for efficient data cleaning and transformation processes.</li>
+                            <li><strong>Data Modeling & Analysis:</strong> Utilized <em>Pivot Tables</em> in Excel for
+                                comprehensive data modeling and analysis.</li>
+                            <li><strong>Data Visualization:</strong> Employed <em>Pivot Charts</em> in Excel to create
+                                visually appealing and informative data visualizations.</li>
+                            <li><strong>Statistical Analysis:</strong> Applied statistical methods within Excel for
+                                uncovering insights and correlations in the dataset.</li>
+                            <li><strong>Demographic Segmentation:</strong> Utilized Excel to segment data based on
+                                demographic variables like age, gender, and lifestyle preferences.</li>
+                            <li><strong>Trend Forecasting:</strong> Utilized Excel to combine data-driven insights and
+                                forecast emerging trends in public interests.</li>
+                            <li><strong>Critical Thinking:</strong> Applied critical thinking skills in Excel to
+                                interpret data and discern meaningful trends.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Key Insights -->
+            <div class="col-md-6 mb-0">
+                <div class="card text-left color-2" id="key-insights">
+                    <div class="card-body">
+                        <h5 class="card-title text-center"><strong><i class="fas fa-lightbulb"></i> KEY INSIGHTS <i
+                                    class="fas fa-lightbulb"></i></strong></h5>
+                        <ul>
+                            <li><strong>Age Overview:</strong> Majority of individuals fall within the age range of
+                                <em>19-21</em>.
+                            </li>
+                            <li><strong>Gender Ratio:</strong> <em>84%</em> Male, <em>16%</em> Female.</li>
+                            <li><strong>Leisure Breakdown:</strong> Watching Movies and Playing Outdoor Games are
+                                popular activities.</li>
+                            <li><strong>Travelers Analysis:</strong> <em>89%</em> individuals are travelers.</li>
+                            <li><strong>Travel Vehicles:</strong> Cars are the most preferred mode of travel.</li>
+                            <li><strong>Sleep Comfort:</strong> <em>85.25%</em> individuals find their sleep
+                                comfortable.</li>
+                            <li><strong>Comfortable Lifestyle:</strong> <em>85.25%</em> individuals lead a comfortable
+                                lifestyle.</li>
+                            <li><strong>Social Preferences:</strong> <em>83.61%</em> prefer family over friends.</li>
+                            <li><strong>Family Size Trend:</strong> Majority have a family size of <em>2-4</em>.</li>
+                            <li><strong>Favorite Food Preferences:</strong> Male individuals prefer Nonveg Meals and Veg
+                                Meals.</li>
+                            <li><strong>Cooking Skills:</strong> <em>77%</em> individuals have cooking skills.</li>
+                            <li><strong>Preferred Seasons:</strong> Winter is the most preferred season.</li>
+                            <li><strong>Favorite Organisms:</strong> Domestic Animals are the most favored.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Skills and Key Insights Section -->
+
+        <!-- Excel Dashboard Demo Section -->
+        <div class="row">
+            <div class="col-md-12 mb-0">
+                <div class="card text-center color-3 fixhighlight" id="excel-dashboard-demo"
+                    style="width: auto; height: auto;">
+                    <div class="card-body">
+                        <h5 class="card-title"><strong><i class="fas fa-file-excel"></i> EXCEL DASHBOARD DEMO <i
+                                    class="fas fa-file-excel"></i></strong></h5>
+                        <div class="embed-responsive embed-responsive-16by9">
+                            <div id="loader">
+                                <!-- <img src="E:\DATA ANALYST\MY PROJECTS\Lifestyle 2024 Dashboard\Hourglass.gif"
+                                    alt="Loading..."> -->
+                                <img src="./assets/loader.gif" alt="Loading...">
+                            </div>
+                            <iframe class="embed-responsive-item" id="myIframe"
+                                src="https://1drv.ms/x/c/2212f0040a259abc/IQPj027uMW8zRL0eLk4LBbudATFBLrTkl0vhzYpnDqaymLI?ActiveCell='DASHBOARD'!A1&Item=dashboard&wdHideGridlines=True&wdInConfigurator=True&wdInConfigurator=True&wdHideSheetTabs=True"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Excel Dashboard Demo Section -->
+
+        <!-- Professional Links Section-->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card text-center color-1" id="professional-links">
+                    <div class="card-body">
+                        <h5 class="card-title"><strong><i class="fas fa-user-tie"></i> PROFESSIONAL LINKS <i
+                                    class="fas fa-user-tie"></i></strong></h5>
+                        <div class="d-flex justify-content-center">
+                            <a href="https://www.linkedin.com/in/aagam-deolasi/" target="_blank"
+                                class="icon-link mr-3 linkedin" data-toggle="tooltip" data-placement="left"
+                                title="LinkedIn (Aagam Deolasi)">
+                                <i class="fab fa-linkedin fa-2x"></i>
+                            </a>
+                            <a href="https://github.com/aagamdeolasi" target="_blank" class="icon-link mr-3 github"
+                                data-toggle="tooltip" data-placement="bottom" title="GitHub (Aagam Deolasi)">
+                                <i class="fab fa-github fa-2x"></i>
+                            </a>
+                            <a href="https://aagamdeolasi.netlify.app/" target="_blank" class="icon-link portfolio"
+                                data-toggle="tooltip" data-placement="right" title="Portfolio (Aagam Deolasi)">
+                                <i class="fas fa-briefcase fa-2x"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Professional Links Section-->
+    </div>
+    <!-- End of Web Content -->
+
+    <!-- Bootstrap, JS, jQuery Links -->
+    <script src="./assets/js/jquery-3.5.1.slim.min.js"></script>
+    <script src="./assets/js/popper-1.16.0.min.js"></script>
+    <script src="./assets/js/bootstrap.min.js"></script>
+    <!-- Bootstrap, JS, jQuery Links -->
+
+    <!-- Initialize tooltips -->
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+    <!-- Initialize tooltips -->
+
+    <!-- Made with Love -->
+    <footer class="text-center mt-1 mb-2">Made with <span class="heartbeat" style="cursor: none;">💖</span> by
+        <strong>AAGAM DEOLASI</strong>
+    </footer>
+
+    <!-- I-Frame Loader Script -->
+    <script>
+        $(document).ready(function () {
+            var iframe = $('#myIframe');
+            var loader = $('#loader');
+
+            // Show loader initially
+            loader.show();
+
+            // Listen for iframe load event
+            iframe.on('load', function () {
+                setTimeout(function () {
+                    // Hide loader when iframe content is loaded
+                    loader.hide();
+                }, 6000)
+            });
+        });
+    </script>
+    <!-- I-Frame Loader Script -->
+
+    <!-- Particle.js -->
+    <script src="./assets/js/particles.min.js"></script>
+    <!-- Particle.js -->
+
+    <script>
+        particlesJS("particles-js", {
+            "particles": {
+                "number": {
+                    "value": 80,
+                    "density": {
+                        "enable": true,
+                        "value_area": 800
+                    }
+                },
+                "color": {
+                    "value": "#000000"
+                },
+                "shape": {
+                    "type": "circle",
+                    "stroke": {
+                        "width": 0,
+                        "color": "#000000"
+                    },
+                    "polygon": {
+                        "nb_sides": 5
+                    },
+                    "image": {
+                        "src": "img/github.svg",
+                        "width": 100,
+                        "height": 100
+                    }
+                },
+                "opacity": {
+                    "value": 0.5,
+                    "random": false,
+                    "anim": {
+                        "enable": false,
+                        "speed": 1,
+                        "opacity_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "size": {
+                    "value": 3,
+                    "random": true,
+                    "anim": {
+                        "enable": false,
+                        "speed": 40,
+                        "size_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "line_linked": {
+                    "enable": true,
+                    "distance": 150,
+                    "color": "#000000",
+                    "opacity": 0.4,
+                    "width": 1
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 6,
+                    "direction": "none",
+                    "random": false,
+                    "straight": false,
+                    "out_mode": "out",
+                    "bounce": false,
+                    "attract": {
+                        "enable": false,
+                        "rotateX": 600,
+                        "rotateY": 1200
+                    }
+                }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                    "onhover": {
+                        "enable": true,
+                        "mode": "repulse"
+                    },
+                    "onclick": {
+                        "enable": true,
+                        "mode": "push"
+                    },
+                    "resize": true
+                },
+                "modes": {
+                    "grab": {
+                        "distance": 400,
+                        "line_linked": {
+                            "opacity": 1
+                        }
+                    },
+                    "bubble": {
+                        "distance": 400,
+                        "size": 40,
+                        "duration": 2,
+                        "opacity": 8,
+                        "speed": 3
+                    },
+                    "repulse": {
+                        "distance": 200,
+                        "duration": 0.4
+                    },
+                    "push": {
+                        "particles_nb": 4
+                    },
+                    "remove": {
+                        "particles_nb": 2
+                    }
+                }
+            },
+            "retina_detect": true
+        });
+
+        // Function to highlight the clicked card
+        function highlightCard(cardId) {
+            // Remove highlight class from all cards
+            $('.card').removeClass('highlight');
+            // Add highlight class to the clicked card
+            $('#' + cardId).addClass('highlight');
+            // Remove the highlight class after 2 seconds
+            setTimeout(function () {
+                $('#' + cardId).removeClass('highlight');
+            }, 2000);
+        }
+    </script>
+</body>
+
+</html>
